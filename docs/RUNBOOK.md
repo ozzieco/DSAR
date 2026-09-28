@@ -25,7 +25,9 @@ Open <https://app.workato.com/recipes?fid=25925175> and start all ten:
 - `[DSAR] 08 Privacy Ops Dashboard`
 - `[DSAR] 09 Draft Subject Communication`
 
-A skill whose recipe is stopped will not run when the genie calls it.
+A skill whose recipe is stopped will not run when the genie calls it. The MCP server's tools
+also report `Active: No` until their backing recipe is started — starting the recipes clears
+both at once.
 
 ### 1b. Activate the genies
 
