@@ -36,10 +36,19 @@ Each was created in `stopped` state. Open each and activate:
 | Genie | URL |
 | --- | --- |
 | VERA \| DSAR Orchestrator | <https://app.workato.com/genies/gin-AbkM9XCw-TALrCH-CD/overview> |
-| VERA \| Intake and Verification | <https://app.workato.com/genies/gin-AbkM9pK8-WNxLaW-CD/overview> |
-| VERA \| Discovery and Assessment | <https://app.workato.com/genies/gin-AbkMABdc-9AzAeG-CD/overview> |
-| VERA \| Fulfilment and Erasure | <https://app.workato.com/genies/gin-AbkMAReC-TPk3D6-CD/overview> |
 | VERA \| Privacy Ops Desk | <https://app.workato.com/genies/gin-AbkMAhgM-Ps4Q3N-CD/overview> |
+
+### 1b-ii. Delete the three retired genies
+
+An earlier revision built a genie per lifecycle stage. Those were folded into the orchestrator.
+All three have had every skill detached, so they cannot act, but the MCP surface has no
+`genie_delete` — remove them in the UI:
+
+- `[RETIRED] Intake and Verification` — `gin-AbkM9pK8-WNxLaW-CD`
+- `[RETIRED] Discovery and Assessment` — `gin-AbkMABdc-9AzAeG-CD`
+- `[RETIRED] Fulfilment and Erasure` — `gin-AbkMAReC-TPk3D6-CD`
+
+Leaving them costs nothing functionally; they are just clutter in the genie list.
 
 ### 1c. Load the demo data
 

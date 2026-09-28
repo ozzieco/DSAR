@@ -43,10 +43,24 @@ Recipe URL pattern: `https://app.workato.com/recipes/<recipe id>`
 | Genie | Genie ID | Skills |
 | --- | --- | --- |
 | VERA \| DSAR Orchestrator | `gin-AbkM9XCw-TALrCH-CD` | all 10 |
-| VERA \| Intake and Verification | `gin-AbkM9pK8-WNxLaW-CD` | 01, 02, 07, 09 |
-| VERA \| Discovery and Assessment | `gin-AbkMABdc-9AzAeG-CD` | 03, 04, 07 |
-| VERA \| Fulfilment and Erasure | `gin-AbkMAReC-TPk3D6-CD` | 05, 06, 07, 09 |
 | VERA \| Privacy Ops Desk | `gin-AbkMAhgM-Ps4Q3N-CD` | 07, 08 |
+
+### Retired genies — delete in the UI
+
+Folded into the orchestrator. Every skill is detached (skill count 0), so they cannot act, but
+there is no `genie_delete` in the MCP surface.
+
+| Genie | Genie ID |
+| --- | --- |
+| `[RETIRED] Intake and Verification` | `gin-AbkM9pK8-WNxLaW-CD` |
+| `[RETIRED] Discovery and Assessment` | `gin-AbkMABdc-9AzAeG-CD` |
+| `[RETIRED] Fulfilment and Erasure` | `gin-AbkMAReC-TPk3D6-CD` |
+
+> **`genie_update` tool quirk.** It ignores the `genie_id` argument and writes to whichever genie
+> the Genie Builder session is bound to. Always call `genie_get(genie_id=...)` in a fresh
+> `session_id` immediately before `genie_update`, then re-read with `genie_list` to confirm the
+> write landed on the intended asset. Three renames issued in one session silently all applied to
+> the same genie.
 
 Genie URL pattern: `https://app.workato.com/genies/<genie id>/overview`
 All were created in `stopped` state and must be activated once — see `docs/RUNBOOK.md` § 1b.

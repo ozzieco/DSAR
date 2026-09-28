@@ -28,11 +28,40 @@
                      Workato Data Tables
 ```
 
-Four specialist genies (Intake and Verification, Discovery and Assessment, Fulfilment and
-Erasure, Privacy Ops Desk) hold overlapping subsets of the same skills. They exist so a privacy
-team can hand a narrow, safer agent to the person who only does one part of the job — the
-Privacy Ops Desk, for instance, physically cannot mutate a case because it holds only the two
-read-only skills.
+## Why two agents, not five
+
+The first build had five genies — one per lifecycle stage. That was wrong, and the reasoning is
+worth recording because it is the mistake this kind of demo invites.
+
+**Skills** are split by transaction boundary: a unit of work that must succeed or fail atomically,
+change case status, and be independently auditable. That gives 10. **Agents** should be split by
+*authority* — who is allowed to do what. That gives 2.
+
+A genie per stage confused the two axes. It produced four agents that differed only in which
+subset of the same skills they held, with no boundary between them that anything enforced, because:
+
+- Workato genies **cannot call other genies** (`genie_update` accepts skill handles only), so there
+  was no delegation hierarchy — just four alternative front doors over one skill layer.
+- The orchestrator already held all 10 skills, so the subsets were not a security boundary for
+  anyone who could reach it.
+- Four near-identical agents cost demo time to explain and diluted tool-routing accuracy.
+
+What survives is the one split that an enforcement mechanism actually backs:
+
+| Agent | Authority |
+| --- | --- |
+| **VERA \| DSAR Orchestrator** | Can act. All 10 skills, including erasure |
+| **VERA \| Privacy Ops Desk** | Cannot act. Only the 2 read-only skills |
+
+The Ops Desk cannot mutate a case or delete a record — not because its instructions forbid it, but
+because the capability is not attached. That holds against a confused operator, a careless prompt,
+and an injection attempt inside a support ticket it reads. Telling one all-powerful agent "please
+do not delete things" does not.
+
+**This is a design for least privilege, not yet an enforced one.** It only bites once project
+access grants restrict who can open the orchestrator versus the Ops Desk. The MCP surface exposes
+only read tools for grants (`project_grant_list`, `project_privilege_get`), so that is a UI step —
+and it is the step that turns this from a diagram into a control.
 
 ## Why the logic lives in skills, not in prompts
 

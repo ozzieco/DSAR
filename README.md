@@ -20,7 +20,7 @@ Workato's MCP surface can create assets but **cannot start them**. Both steps ar
 take about a minute:
 
 1. **Start the 10 `[DSAR]` recipes** — <https://app.workato.com/recipes?fid=25925175>
-2. **Activate the 5 `VERA` genies** — they are created in `stopped` state
+2. **Activate the 2 `VERA` genies** — they are created in `stopped` state
 3. Then, in the **VERA | DSAR Orchestrator** chat, say: **"Reset the DSAR demo data"**
 
 Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
@@ -42,10 +42,14 @@ Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
 | Agent | Role |
 | --- | --- |
 | **VERA \| DSAR Orchestrator** | Supervisor. Runs a case end to end; holds all 10 skills |
-| **VERA \| Intake and Verification** | Classifies the request, sets the statutory clock, proves identity |
-| **VERA \| Discovery and Assessment** | Finds every record, then rules each in or out of erasure |
-| **VERA \| Fulfilment and Erasure** | Builds the redacted package; executes approved deletions |
 | **VERA \| Privacy Ops Desk** | Read-only register, deadlines, breach risk, audit evidence |
+
+Two agents, not five. The split is by **authority**, not by task: one agent that can act, and one
+that structurally cannot. The Ops Desk holds only the two read-only skills, so it cannot mutate a
+case or erase a record however it is asked — that is a capability boundary, not a prompt
+instruction. Slicing the same skills into a genie per lifecycle stage looked tidy but bought
+nothing: Workato genies cannot call each other, so those would have been extra front doors over
+one shared skill layer, not a delegation hierarchy. See `docs/ARCHITECTURE.md`.
 
 The same 10 skills are also published as a Workato **MCP server**, so Claude Desktop or Claude
 Code can act as the orchestrator directly against the same tools.
