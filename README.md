@@ -27,6 +27,28 @@ Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
 
 ---
 
+## Resetting the demo data
+
+Say this in the **VERA | DSAR Orchestrator** chat:
+
+> Reset the DSAR demo data.
+
+Any phrasing works — "re-seed the DSAR demo", "reload the demo data". Three things to know:
+
+- **Orchestrator only.** `VERA | Intake Triage` and `VERA | Privacy Ops Desk` do not hold the
+  reset skill and will decline.
+- **No confirmation prompt.** It runs the instant you ask, so don't type it with a live case
+  open. If you prefer a deliberate action, run recipe
+  [`82651199`](https://app.workato.com/recipes/82651199) from its test console instead.
+- **It is the only way to undo an erasure.** Scenario B deletes real rows, so always reset
+  before re-running it or Daniel Reyes's CRM contact will already be gone.
+
+It clears all case state (`Cases`, `Findings`, `Audit Log`) and the inbound queue
+(`Inbound Requests`), then reloads the registry, the legal holds and all five source systems —
+5 systems, 3 holds, 25 records. Idempotent, so run it as often as you like.
+
+---
+
 ## What's in here
 
 | Document | What it covers |

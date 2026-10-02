@@ -3,7 +3,10 @@
 Three scenarios, roughly 12 minutes. Each gives you the inbound request verbatim, the prompt
 to type, and the numbers you should see.
 
-Reset first: **"Reset the DSAR demo data."**
+Reset first — in the **VERA | DSAR Orchestrator** chat, say **"Reset the DSAR demo data."**
+It runs immediately with no confirmation prompt, clears all case state and the inbound queue,
+and reloads 5 systems, 3 legal holds and 25 source records. The other two genies do not hold
+the reset skill. Always reset before re-running Scenario B, which deletes real rows.
 
 Every scenario can be run two ways, and each scenario below spells out both:
 
