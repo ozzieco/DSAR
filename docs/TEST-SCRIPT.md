@@ -241,10 +241,10 @@ This replaces "the presenter pastes the email" with a real trigger. See
 
 In the **Orchestrator** chat:
 
-> A new privacy request just arrived by email from marta.okonkwo@example.de, subject "Data
-> request". She wrote: "Hello, under GDPR I would like a copy of all personal data your company
-> holds about me. I am based in Berlin." Put it in the inbound queue and then stop — I want the
-> automated path to handle it, not you.
+> A new privacy request just arrived by email from marta.okonkwo@example.de, name Marta
+> Okonkwo, subject "Data request". She wrote: "Hello, under GDPR I would like a copy of all
+> personal data your company holds about me. I am based in Berlin. Please confirm receipt."
+> Put it in the inbound queue and then stop — I want the automated path to handle it, not you.
 
 - [ ] Returns `queued` with a `message_id`
 - [ ] A new row appears in `[DSAR] Inbound Requests` with `status = new`

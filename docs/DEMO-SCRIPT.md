@@ -1,9 +1,22 @@
 # VERA DSAR Suite — Demo Script
 
-Three scenarios, roughly 12 minutes. Each is a copy-paste prompt into the
-**VERA | DSAR Orchestrator** genie chat, plus the numbers you should see.
+Three scenarios, roughly 12 minutes. Each gives you the inbound request verbatim, the prompt
+to type, and the numbers you should see.
 
 Reset first: **"Reset the DSAR demo data."**
+
+Every scenario can be run two ways, and each scenario below spells out both:
+
+- **Path 1 — automated.** The request is written into the `[DSAR] Inbound Requests` queue by
+  `[DSAR] 11 Simulate Inbound Request`, exactly as a Gmail, Outlook, webform or Zendesk
+  connector would. The listener recipe picks the row up and hands it to **VERA | Intake
+  Triage**, which opens and verifies the case unattended. Needs recipes 10 and 11 started and
+  the Triage genie active. See [`INBOUND-TRIGGERS.md`](INBOUND-TRIGGERS.md).
+- **Path 2 — presenter-driven.** One prompt into the **Orchestrator** runs the whole chain.
+  Same outcome, less to go wrong on stage. Use it as the fallback.
+
+Path 1 is the one that proves the point — nobody typed the case into existence. Have Path 2
+ready in case the listener is not running.
 
 > Before the first run, work through [`TEST-SCRIPT.md`](TEST-SCRIPT.md) instead — it covers these
 > three scenarios plus the refusal paths, the remaining letter types and the agent capability
@@ -19,9 +32,75 @@ Reset first: **"Reset the DSAR demo data."**
 **What it proves:** one sentence of plain text becomes a classified, deadline-tracked case;
 discovery finds records the business had forgotten; third-party data is redacted automatically.
 
-### Prompt
+### The request, as it arrived
 
-> A new privacy request just came in by email from marta.okonkwo@example.de.
+This is the whole message. Nothing else about Marta is supplied — everything in the expected
+results below is derived by the agents from this envelope and body alone.
+
+| Field | Value |
+| --- | --- |
+| Channel | `email` |
+| From | `marta.okonkwo@example.de` |
+| From name | `Marta Okonkwo` |
+| Subject | `Data request` |
+| Received | now (stamped by the simulator) |
+| Status | `new` |
+
+**Body — verbatim, copy this exactly:**
+
+```text
+Hello, under GDPR I would like a copy of all personal data your company holds about me. I am based in Berlin. Please confirm receipt.
+```
+
+That is all the presenter ever types. Note what is *not* in it: no case reference, no account
+number, no customer ID, no statement of which systems to search, no mention of a duplicate CRM
+record, a colleague named in a ticket, or a legal hold. The classification, the 30-day GDPR
+deadline, the identity score and all six records come out of those three sentences.
+
+### Path 1 — automated intake (use this one on stage)
+
+The request lands in the `[DSAR] Inbound Requests` queue, the listener recipe picks it up, and
+the **Intake Triage** agent opens and verifies the case with nobody driving it. Prompt the
+**Orchestrator**:
+
+> A new privacy request just arrived by email from marta.okonkwo@example.de, name Marta
+> Okonkwo, subject "Data request". She wrote: "Hello, under GDPR I would like a copy of all
+> personal data your company holds about me. I am based in Berlin. Please confirm receipt."
+> Put it in the inbound queue and then stop — I want the automated path to handle it, not you.
+
+It returns `queued` with a `message_id`. Then open
+[`[DSAR] Inbound Requests`](https://app.workato.com/data_tables/d9a5f88b-11e6-4e04-81fb-0df2462da2a3)
+on screen and leave it up: within seconds `status` flips `new` → `triaged` and `case_id` fills
+in. That transition is the demo — no human ran intake.
+
+If you would rather invoke the skill directly (recipe test console, or the MCP server from
+Claude Desktop) rather than ask for it in chat, these are the five input fields of
+`[DSAR] 11 Simulate Inbound Request`:
+
+| Input | Value |
+| --- | --- |
+| `from_email` | `marta.okonkwo@example.de` |
+| `from_name` | `Marta Okonkwo` |
+| `subject` | `Data request` |
+| `channel` | `email` |
+| `body` | the verbatim text above |
+
+Only `from_email` and `body` are required; `channel` defaults to `email` and `subject` to
+`Privacy request`. To demonstrate another transport, change `channel` to `webform`,
+`support_ticket`, `phone` or `post` — the intake classifier reads it and the audit trail
+records it.
+
+Once the case exists, pick it up in the Orchestrator:
+
+> Show me the case the inbound queue just created, then take it through to a reviewable access
+> package.
+
+### Path 2 — presenter-driven (fallback if the listener recipe is not running)
+
+One prompt into the Orchestrator does the whole chain. Use this if the queue path misbehaves —
+the outcome is identical, only the trigger differs.
+
+> A new privacy request came in by email from marta.okonkwo@example.de.
 > She wrote: "Hello, under GDPR I would like a copy of all personal data your company holds
 > about me. I am based in Berlin. Please confirm receipt."
 > Please take it from intake all the way to a reviewable access package.
@@ -55,7 +134,29 @@ you could send to the data subject.
 
 > **Reset the demo data before running this** — it deletes real rows.
 
+### The request, as it arrived
+
+| Field | Value |
+| --- | --- |
+| Channel | `support_ticket` (ticket `TKT-90455`) |
+| From | `daniel.reyes@example.com` |
+| From name | `Daniel Reyes` |
+| Subject | `Close my account and delete my data` |
+
+**Body — verbatim:**
+
+```text
+I want my account closed and every piece of personal information you hold about me deleted. I am a California resident and I am exercising my rights under the CCPA.
+```
+
+This one arrived on a *different channel* — the subject raised it inside a support ticket, not
+by email. Same queue, same classifier. Worth pointing at: the ticket he complained in is itself
+one of the records he is asking to have deleted, and it is the one the legal hold preserves.
+
 ### Prompt
+
+To run it through the queue, set `channel` to `support_ticket` and use the body above. Or drive
+it directly:
 
 > Daniel Reyes raised this through support ticket TKT-90455: "I want my account closed and every
 > piece of personal information you hold about me deleted. I am a California resident and I am
@@ -105,7 +206,29 @@ The three blocked records carry two distinct, citable reasons:
 
 **What it proves:** the agent recognises Article 9 data and escalates instead of releasing it.
 
+### The request, as it arrived
+
+| Field | Value |
+| --- | --- |
+| Channel | `webform` (the public privacy portal) |
+| From | `priya.raman@example.co.uk` — her **personal** address, not her work one |
+| From name | `Priya Raman` |
+| Subject | `Subject access request` |
+
+**Body — verbatim:**
+
+```text
+I'd like to see everything HR holds about me, including my performance reviews and anything from occupational health.
+```
+
+She asks only about HR. The agent searches everywhere anyway, which is how it finds her in CRM
+and Marketing — and nothing in this text says she is an employee or that the request touches
+health data. Both are inferred.
+
 ### Prompt
+
+To run it through the queue, set `channel` to `webform` and use the body above. Or drive it
+directly:
 
 > Priya Raman, one of our employees, has made a subject access request from her personal address
 > priya.raman@example.co.uk. She wrote: "I'd like to see everything HR holds about me, including
