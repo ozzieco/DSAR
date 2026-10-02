@@ -24,6 +24,8 @@ Open <https://app.workato.com/recipes?fid=25925175> and start all ten:
 - `[DSAR] 07 Get Case File`
 - `[DSAR] 08 Privacy Ops Dashboard`
 - `[DSAR] 09 Draft Subject Communication`
+- `[DSAR] 10 Inbound Request Listener`
+- `[DSAR] 11 Simulate Inbound Request`
 
 A skill whose recipe is stopped will not run when the genie calls it. The MCP server's tools
 also report `Active: No` until their backing recipe is started — starting the recipes clears
@@ -36,6 +38,7 @@ Each was created in `stopped` state. Open each and activate:
 | Genie | URL |
 | --- | --- |
 | VERA \| DSAR Orchestrator | <https://app.workato.com/genies/gin-AbkM9XCw-TALrCH-CD/overview> |
+| VERA \| Intake Triage | <https://app.workato.com/genies/gin-AbncH8Qs-J9bm9b-CD/overview> |
 | VERA \| Privacy Ops Desk | <https://app.workato.com/genies/gin-AbkMAhgM-Ps4Q3N-CD/overview> |
 
 ### 1b-ii. Delete the three retired genies

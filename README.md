@@ -19,8 +19,8 @@ a per-step change documented in `docs/PRODUCTION-NOTES.md`.
 Workato's MCP surface can create assets but **cannot start them**. Both steps are UI-only and
 take about a minute:
 
-1. **Start the 10 `[DSAR]` recipes** — <https://app.workato.com/recipes?fid=25925175>
-2. **Activate the 2 `VERA` genies** — they are created in `stopped` state
+1. **Start the 12 `[DSAR]` recipes** — <https://app.workato.com/recipes?fid=25925175>
+2. **Activate the 3 `VERA` genies** — they are created in `stopped` state
 3. Then, in the **VERA | DSAR Orchestrator** chat, say: **"Reset the DSAR demo data"**
 
 Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
@@ -33,7 +33,8 @@ Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
 | --- | --- |
 | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | Activation, demo reset, troubleshooting, moving the suite to its own project |
 | [`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.md) | Three scenarios with the exact prompts to type and the numbers to expect |
-| [`docs/TEST-SCRIPT.md`](docs/TEST-SCRIPT.md) | Full test pass — all 10 skills, all 4 refusal paths, the capability boundary |
+| [`docs/TEST-SCRIPT.md`](docs/TEST-SCRIPT.md) | Full test pass — all skills, all 4 refusal paths, the capability boundary |
+| [`docs/INBOUND-TRIGGERS.md`](docs/INBOUND-TRIGGERS.md) | How a request actually arrives: queue, real mailbox or webform — and prompt injection |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Agent topology, skill contracts, data model, guardrail design |
 | [`docs/PRODUCTION-NOTES.md`](docs/PRODUCTION-NOTES.md) | Replacing the simulated systems with real connectors; what is demo-grade and what is not |
 | [`workato/asset-registry.md`](workato/asset-registry.md) | Every ID, handle and URL |
@@ -42,11 +43,12 @@ Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
 
 | Agent | Role |
 | --- | --- |
-| **VERA \| DSAR Orchestrator** | Supervisor. Runs a case end to end; holds all 10 skills |
+| **VERA \| Intake Triage** | Unattended. Triage only — holds no destructive skill |
+| **VERA \| DSAR Orchestrator** | Can act. Runs a case end to end, erasure behind a confirmation gate |
 | **VERA \| Privacy Ops Desk** | Read-only register, deadlines, breach risk, audit evidence |
 
-Two agents, not five. The split is by **authority**, not by task: one agent that can act, and one
-that structurally cannot. The Ops Desk holds only the two read-only skills, so it cannot mutate a
+Three agents, split by **authority** rather than by task — and each reached by a different
+caller: the listener recipe drives triage unattended, a human drives the other two. The Ops Desk holds only the two read-only skills, so it cannot mutate a
 case or erase a record however it is asked — that is a capability boundary, not a prompt
 instruction. Slicing the same skills into a genie per lifecycle stage looked tidy but bought
 nothing: Workato genies cannot call each other, so those would have been extra front doors over

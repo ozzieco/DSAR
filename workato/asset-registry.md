@@ -20,6 +20,7 @@ Every ID, handle and URL created by this build. Workspace folder: **Adhoc Testin
 | `[DSAR] SRC Marketing Profiles` | 7337825b-5248-4f59-a53a-dfa3146b7a71 | 153069 |
 | `[DSAR] SRC Billing Accounts` | a6efafa0-f263-43dc-91b3-655202b2d011 | 153070 |
 | `[DSAR] SRC HR Records` | 2246804a-d930-40dd-b1fd-53bc4fdd7d03 | 153071 |
+| `[DSAR] Inbound Requests` | d9a5f88b-11e6-4e04-81fb-0df2462da2a3 | 155262 |
 
 ## Skills
 
@@ -35,6 +36,8 @@ Every ID, handle and URL created by this build. Workspace folder: **Adhoc Testin
 | 07 | `[DSAR] 07 Get Case File` | 82651259 | `skl-AbkM3HYD-wkrDdB-CD` |
 | 08 | `[DSAR] 08 Privacy Ops Dashboard` | 82651261 | `skl-AbkM4nLk-EepWNp-CD` |
 | 09 | `[DSAR] 09 Draft Subject Communication` | 82651263 | `skl-AbkM6eJt-DEzwba-CD` |
+| 10 | `[DSAR] 10 Inbound Request Listener` (workflow recipe, not a skill) | 82776398 | — |
+| 11 | `[DSAR] 11 Simulate Inbound Request` | 82776403 | `skl-AbncJQCM-hnnhra-CD` |
 
 Recipe URL pattern: `https://app.workato.com/recipes/<recipe id>`
 
@@ -42,7 +45,8 @@ Recipe URL pattern: `https://app.workato.com/recipes/<recipe id>`
 
 | Genie | Genie ID | Skills |
 | --- | --- | --- |
-| VERA \| DSAR Orchestrator | `gin-AbkM9XCw-TALrCH-CD` | all 10 |
+| VERA \| DSAR Orchestrator | `gin-AbkM9XCw-TALrCH-CD` | all 10, plus 11 (simulator) |
+| VERA \| Intake Triage | `gin-AbncH8Qs-J9bm9b-CD` | 01, 02, 03, 04, 09 — no destructive skill |
 | VERA \| Privacy Ops Desk | `gin-AbkMAhgM-Ps4Q3N-CD` | 07, 08 |
 
 ### Retired genies — delete in the UI
