@@ -12,7 +12,7 @@ these two steps must be done in the Workato UI. Budget one minute.
 
 ### 1a. Start the recipes
 
-Open <https://app.workato.com/recipes?fid=25925175> and start all ten:
+Open <https://app.workato.com/recipes?fid=25925175> and start all twelve:
 
 - `[DSAR] 00 Seed and Reset Demo Data`
 - `[DSAR] 01 Intake and Classify Request`
@@ -30,6 +30,16 @@ Open <https://app.workato.com/recipes?fid=25925175> and start all ten:
 A skill whose recipe is stopped will not run when the genie calls it. The MCP server's tools
 also report `Active: No` until their backing recipe is started — starting the recipes clears
 both at once.
+
+**Check 10 specifically.** It is the only workflow recipe in the set — it has a data-table
+trigger rather than a skill trigger, so it never appears as a tool on a genie and nothing
+complains when it is stopped. Leave it stopped and the automated intake path fails silently:
+`[DSAR] 11 Simulate Inbound Request` still reports `queued` and the row still lands in the
+queue, but nothing ever picks it up, no case is opened, and the demo looks broken with no
+error to point at. Confirm it reads **Running** before demoing Path 1.
+
+Recipe 00 is the one you will stop and start again if a skill ever needs editing — Workato
+refuses to save a running recipe.
 
 ### 1b. Activate the genies
 
@@ -72,7 +82,11 @@ restore records that a demo erasure deleted.
 Say **"Reset the DSAR demo data"** in the orchestrator chat. This:
 
 - truncates `[DSAR] Cases`, `[DSAR] Findings` and `[DSAR] Audit Log` (all case state)
+- truncates `[DSAR] Inbound Requests` (the intake queue), so the table is empty on screen
 - re-upserts the system registry, the legal holds and all five simulated source systems
+
+It takes no input and asks for no confirmation — it runs the moment you say it. It is also only
+attached to the **Orchestrator**; the Triage and Privacy Ops Desk genies do not hold it.
 
 Erasure is destructive against the source tables, so **always reset before re-running
 Scenario B**, or Daniel Reyes's CRM contact will already be gone.

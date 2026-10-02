@@ -27,6 +27,10 @@ Every ID, handle and URL created by this build. Workspace folder: **Adhoc Testin
 | # | Skill | Recipe ID | Skill handle |
 | --- | --- | --- | --- |
 | 00 | `[DSAR] 00 Seed and Reset Demo Data` | 82651199 | `skl-AbkLQ9X6-3D96NQ-CD` |
+
+Skill 00 truncates `Cases`, `Findings`, `Audit Log` and `Inbound Requests`, then re-upserts the
+registry, holds and five source tables. It is attached to the Orchestrator only.
+
 | 01 | `[DSAR] 01 Intake and Classify Request` | 82651213 | `skl-AbkLaFME-9zAG3R-CD` |
 | 02 | `[DSAR] 02 Verify Requester Identity` | 82651217 | `skl-AbkLcaHY-zWneaE-CD` |
 | 03 | `[DSAR] 03 Discover Personal Data` | 82651237 | `skl-AbkLfGhG-nYArhk-CD` |

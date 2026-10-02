@@ -229,6 +229,7 @@ downstream must refuse. **Capture this case ID as `CASE-X`.**
 - [ ] `[DSAR] SRC CRM Contacts` — `CRM-10188` is **back**
 - [ ] `MKT-55884` fully restored (name, score, consent, segments)
 - [ ] Cases, Findings and Audit Log all empty
+- [ ] `[DSAR] Inbound Requests` empty — no leftover rows from Phase 6b
 
 ---
 
