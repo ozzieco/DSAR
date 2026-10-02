@@ -33,6 +33,7 @@ Full detail in **[`docs/RUNBOOK.md`](docs/RUNBOOK.md)**.
 | --- | --- |
 | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | Activation, demo reset, troubleshooting, moving the suite to its own project |
 | [`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.md) | Three scenarios with the exact prompts to type and the numbers to expect |
+| [`docs/TEST-SCRIPT.md`](docs/TEST-SCRIPT.md) | Full test pass — all 10 skills, all 4 refusal paths, the capability boundary |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Agent topology, skill contracts, data model, guardrail design |
 | [`docs/PRODUCTION-NOTES.md`](docs/PRODUCTION-NOTES.md) | Replacing the simulated systems with real connectors; what is demo-grade and what is not |
 | [`workato/asset-registry.md`](workato/asset-registry.md) | Every ID, handle and URL |

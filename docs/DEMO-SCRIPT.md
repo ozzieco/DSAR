@@ -5,6 +5,10 @@ Three scenarios, roughly 12 minutes. Each is a copy-paste prompt into the
 
 Reset first: **"Reset the DSAR demo data."**
 
+> Before the first run, work through [`TEST-SCRIPT.md`](TEST-SCRIPT.md) instead — it covers these
+> three scenarios plus the refusal paths, the remaining letter types and the agent capability
+> boundary, with a pass/fail checklist.
+
 > The case IDs are generated per run (`DSAR-<workato job id>`), so capture the one the intake
 > step returns and reuse it. The orchestrator carries it for you if you stay in one thread.
 
